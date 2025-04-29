@@ -26,8 +26,6 @@ public class BgLooper : MonoBehaviour
     //Trigger = '충돌체에 대한 정보만' 알려줌
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Triggerd: " + collision.name);
-
         if (collision.CompareTag("BackGround"))
         {
             float widthOfBgObject = ((BoxCollider2D)collision).size.x;
