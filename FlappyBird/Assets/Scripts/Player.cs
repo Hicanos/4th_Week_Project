@@ -32,6 +32,16 @@ public class Player : MonoBehaviour
     {
         if (isDead)
         {
+            if(deathCooldown <= 0)
+            {
+                //게임 재시작
+            }
+            else
+            {
+                //deltaTime: 동일한 시간에 동일한 위치에 도달 가능!
+                // 프레임이 높을 수록 더 부드러워지긴함.
+                deathCooldown -= Time.deltaTime;
+            }
 
         }
         else
@@ -68,5 +78,16 @@ public class Player : MonoBehaviour
 
         float angle = Mathf.Clamp((rigbody.velocity.y * 10f), -90, 90);
         transform.rotation =Quaternion.Euler(0, 0, angle);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (godMode) return;
+        if (isDead) return;
+
+        isDead = true;
+        deathCooldown = 1f;
+
+        animator.SetInteger("IsDie",1);
     }
 }
