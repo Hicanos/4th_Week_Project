@@ -1,18 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.XR;
+
+public enum UIState
+{
+    Home,
+    Game,
+    Score,
+}
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    static UIManager instance;
+    public static UIManager Instance
     {
-        
+        get { return instance; }
     }
 
-    // Update is called once per frame
-    void Update()
+    UIState currentState = UIState.Home;
+
+    HomeUI homeUI = null;
+    GameUI gameUI = null;
+    ScoreUI scoreUI = null;
+
+    TheStack theStack = null;
+
+    private void Awake()
     {
-        
+        instance = this;
+        theStack = FindObjectOfType<TheStack>();
+
+        homeUI = GetComponentInChildren<HomeUI>(true);
+        homeUI?.Init(this);
+
+        gameUI = GetComponentInChildren<GameUI>(true);
+        gameUI?.Init(this);
+        scoreUI = GetComponentInChildren<ScoreUI>(true);
+        scoreUI?.Init(this);
+
+        ChangeState(UIState.Home);
+    }
+
+    public void ChangeState(UIState state)
+    {
+        currentState = state;
+        homeUI?.SetActive(currentState);
+        gameUI?.SetActive(currentState);
+        scoreUI?.SetActive(currentState);
+    }
+
+    public void OnClickStart()
+    {
+        ChangeState(UIState.Game);
+    }
+
+    public void OnClickExit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        ApplyCation.Quit(); //어플리케이션 종료
+#endif
     }
 }
+
