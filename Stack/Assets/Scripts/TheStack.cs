@@ -13,7 +13,7 @@ public class TheStack : MonoBehaviour
 
     public GameObject originBlock = null;
 
-    private Vector3 prevBlockPostion; //이전 블록 위치
+    private Vector3 prevBlockPosition; //이전 블록 위치
     private Vector3 desiredPosition; //스택의 목표 위치
     private Vector3 stackBounds = new Vector2(BoundSize, BoundSize); //현재 블록 너비
 
@@ -40,7 +40,7 @@ public class TheStack : MonoBehaviour
         prevColor = GetRandomColor();
         nextColor = GetRandomColor();
 
-        prevBlockPostion = Vector3.down;
+        prevBlockPosition = Vector3.down;
         Spawn_Block();
         Spawn_Block();
     }
@@ -49,7 +49,16 @@ public class TheStack : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Spawn_Block();
+            if (PlaceBlock())
+            {
+                Spawn_Block();
+            }
+            else
+            {
+                //게임 오버
+                Debug.Log("GameOver");
+            }
+            
         }
 
         MoveBlock();
@@ -63,7 +72,7 @@ public class TheStack : MonoBehaviour
     {
         //이전 블럭 저장
         if(lastBlock != null)
-           prevBlockPostion = lastBlock.localPosition;
+           prevBlockPosition = lastBlock.localPosition;
 
         GameObject newBlock = null;
         Transform newTrans = null;
@@ -80,7 +89,7 @@ public class TheStack : MonoBehaviour
 
         newTrans = newBlock.transform;
         newTrans.parent = this.transform; //새로 생긴 블록의 부모의 Transform을 블록의 Transform으로 가져옴
-        newTrans.localPosition = prevBlockPostion + Vector3.up; //y값 scale이 1이기 때문에 up만 써도 바로 위로 올라감
+        newTrans.localPosition = prevBlockPosition + Vector3.up; //y값 scale이 1이기 때문에 up만 써도 바로 위로 올라감
         newTrans.localRotation = Quaternion.identity; //회전이 없는 초기값
         newTrans.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);//새로 생긴 블럭의 사이즈에 맞춰 localscale 설정
 
@@ -149,4 +158,110 @@ public class TheStack : MonoBehaviour
                 secondaryPosition, stackCount, -movePosition * MovingBoundsSize);
         }
     }
+
+    bool PlaceBlock()
+    {
+        Vector3 lastPosition = lastBlock.localPosition;
+
+        if (isMovingX)
+        {
+            //이전 블럭의 중심 x값 - 마지막 포지션의 중심 x값 = 잘려나가야 하는 크기
+            float deltaX = prevBlockPosition.x - lastPosition.x;
+
+            //남은 조각이 어디에서 떨어지는지 정하기
+            bool isNegativeNum = (deltaX < 0) ? true : false;
+
+            deltaX = Mathf.Abs(deltaX); //Abs: 절대값
+            
+            if(deltaX > ErrorMargin)
+            {
+                stackBounds.x -= deltaX;
+                if(stackBounds.x <= 0)
+                {
+                    return false;
+                }
+
+                //이전 블록의 포지션x - 최근포지션x / 2 = 중심값
+                float middle = (prevBlockPosition.x - lastPosition.x) / 2f;
+                lastBlock.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
+
+                Vector3 tempPosition = lastBlock.localPosition;
+                tempPosition.x = middle;
+                lastBlock.localPosition = lastPosition = tempPosition;
+
+                float rubbleHalfScale = deltaX / 2f;
+                CreateRubble(new Vector3(
+                    isNegativeNum
+                    ? lastPosition.x + stackBounds.x / 2 + rubbleHalfScale
+                    : lastPosition.x - stackBounds.x / 2 - rubbleHalfScale
+                    , lastPosition.y
+                    , lastPosition.z
+                    ),
+                    new Vector3(deltaX, 1, stackBounds.y)
+                    );
+            }
+            else
+            {
+
+                lastBlock.localPosition = prevBlockPosition + Vector3.up;
+            }
+
+        }
+        else
+        {
+            float deltaZ = prevBlockPosition.z - lastPosition.z;
+            bool isNegativeNum = (deltaZ < 0) ? true: false;
+
+            deltaZ = Mathf.Abs(deltaZ);
+            if(deltaZ > ErrorMargin)
+            {
+                stackBounds.y-= deltaZ;
+                if(stackBounds.y <= 0)
+                {
+                    return false;
+                }
+
+                float middle = (prevBlockPosition.z + lastPosition.z) / 2f;
+                lastBlock.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
+
+                Vector3 tempPosition = lastBlock.localPosition;
+                tempPosition.z = middle;
+                lastBlock.localPosition= lastPosition = tempPosition;
+
+                float rubbleHalfScale = deltaZ / 2f;
+                CreateRubble(
+                    new Vector3(
+                        lastPosition.x,
+                        lastPosition.y,
+                        isNegativeNum
+                        ? lastPosition.z + stackBounds.y / 2 + rubbleHalfScale
+                        : lastPosition.z - stackBounds.y / 2 - rubbleHalfScale),
+                    new Vector3(stackBounds.x, 1, deltaZ)
+                    );
+            }
+            else
+            {
+                lastBlock.localPosition = prevBlockPosition + Vector3.up;
+            }
+        }
+
+        //두번째 포지션 =>이전 블럭의 위치가 계속 바뀌기 때문에 위치를 파악하고 해당 x, z값을 저장함.
+        secondaryPosition = (isMovingX)? lastBlock.localPosition.x : lastBlock.localPosition.z;
+
+        return true;
+    }
+
+    void CreateRubble(Vector3 pos, Vector3 scale)
+    {
+        GameObject go = Instantiate(lastBlock.gameObject);
+        go.transform.parent = this.transform;
+
+        go.transform.localPosition = pos;
+        go.transform.localScale = scale;
+        go.transform.localRotation = Quaternion.identity;
+
+        go.AddComponent<Rigidbody>();
+        go.name = "Rubble";
+    }
+
 }
