@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStart()
     {
+        theStack.Restart();
         ChangeState(UIState.Game);
     }
 
@@ -60,4 +61,16 @@ public class UIManager : MonoBehaviour
 #endif
 
     }
+
+    public void UpdateScore()
+    {
+        gameUI.SetUI(theStack.Score, theStack.ComboCount, theStack.MaxCombo);
+    }
+
+    public void SetScoreUI()
+    {
+        scoreUI.SetUI(theStack.Score, theStack.MaxCombo, theStack.BestScore, theStack.BestCombo);
+        ChangeState(UIState.Score);
+    }
+
 }
