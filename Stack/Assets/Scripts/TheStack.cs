@@ -79,7 +79,7 @@ public class TheStack : MonoBehaviour
                 Spawn_Block();
             }
             else
-            {                
+            {   //게임 오버 처리
                 UpdateScore();
                 isGameOver = true;
                 GameOverEffect();
@@ -356,6 +356,7 @@ public class TheStack : MonoBehaviour
     }
 
 
+    //처음 시작과 완전히 동일한 형태로 재구성 
     public void Restart()
     {
         int childCount = transform.childCount;
@@ -366,6 +367,7 @@ public class TheStack : MonoBehaviour
         }
 
         isGameOver = false;
+        lastBlock = null;
         desiredPosition = Vector3.zero;
         stackBounds = new Vector3(BoundSize, BoundSize);
 
