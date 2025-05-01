@@ -56,6 +56,7 @@ public class TheStack : MonoBehaviour
             return;
         }
 
+        //스코어 및 콤보 저장
         bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         bestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
 
@@ -63,8 +64,8 @@ public class TheStack : MonoBehaviour
         nextColor = GetRandomColor();
 
         prevBlockPosition = Vector3.down;
-        Spawn_Block();
-        Spawn_Block();
+        Spawn_Block(); //이건 처음 세팅되는 블럭
+        Spawn_Block(); //이건 그 다음에 세팅되는 움직이는 블럭
     }
 
     void Update()
