@@ -45,7 +45,7 @@ public class TheStack : MonoBehaviour
     private const string BestScoreKey = "BestScore";
     private const string BestComboKey = "BestCombo";
 
-    private bool isGameOver = false;
+    private bool isGameOver = true;
 
 
     void Start()
@@ -56,6 +56,7 @@ public class TheStack : MonoBehaviour
             return;
         }
 
+        //스코어 및 콤보 저장
         bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         bestCombo = PlayerPrefs.GetInt(BestComboKey, 0);
 
@@ -63,8 +64,8 @@ public class TheStack : MonoBehaviour
         nextColor = GetRandomColor();
 
         prevBlockPosition = Vector3.down;
-        Spawn_Block();
-        Spawn_Block();
+        Spawn_Block(); //이건 처음 세팅되는 블럭
+        Spawn_Block(); //이건 그 다음에 세팅되는 움직이는 블럭
     }
 
     void Update()
@@ -78,12 +79,11 @@ public class TheStack : MonoBehaviour
                 Spawn_Block();
             }
             else
-            {
-                //게임 오버
-                Debug.Log("GameOver");
+            {                
                 UpdateScore();
                 isGameOver = true;
                 GameOverEffect();
+                UIManager.Instance.SetScoreUI();
             }
             
         }
@@ -92,7 +92,11 @@ public class TheStack : MonoBehaviour
 
         //Lerp - 선형보간 (시작값-끝값 사이의 값을 t비율(0~1)로 계산하여 반환)
         //Lerp(현재위치, 목적위치, 일정한퍼센테이지)
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, StackMovingSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(
+                             transform.position,
+                             desiredPosition,
+                             StackMovingSpeed * Time.deltaTime
+                             );
     }
 
     bool Spawn_Block()
@@ -128,6 +132,8 @@ public class TheStack : MonoBehaviour
         lastBlock = newTrans;
 
         isMovingX = !isMovingX;
+
+        UIManager.Instance.UpdateScore();
 
         return true;        
     }
@@ -347,6 +353,37 @@ public class TheStack : MonoBehaviour
                 (Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10) - 5f)) *100f
                 );
         }
+    }
+
+
+    public void Restart()
+    {
+        int childCount = transform.childCount;
+
+        for(int i = 0; i < childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
+        isGameOver = false;
+        desiredPosition = Vector3.zero;
+        stackBounds = new Vector3(BoundSize, BoundSize);
+
+        stackCount = -1;
+        isMovingX = true;
+        blockTransition = 0f;
+        secondaryPosition = 0f;
+
+        comboCount = 0;
+        maxCombo = 0;
+
+        prevBlockPosition = Vector3.down;
+
+        prevColor = GetRandomColor();
+        nextColor = GetRandomColor();
+
+        Spawn_Block();
+        Spawn_Block();
     }
 
 }
