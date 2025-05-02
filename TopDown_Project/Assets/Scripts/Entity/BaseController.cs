@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //모든 캐릭터의 기본 움직임 관리
@@ -15,6 +17,7 @@ public class BaseController : MonoBehaviour
     [SerializeField] private Transform weaponPivot; //무기를 위치시킬 기준 위치
 
 
+
     //이동 방향
     protected Vector2 movementDirection = Vector2.zero; 
     public Vector2 MovementDirection { get { return movementDirection; } }
@@ -28,12 +31,23 @@ public class BaseController : MonoBehaviour
     private Vector2 knockback = Vector2.zero; //넉백 방향
     private float knockbackDuration = 0.0f; //넉백 지속 시간
 
+    [SerializeField] public WeaponHandler WeaponPrefab;
+    protected WeaponHandler weaponHandler;
+
+    protected bool isAttacking;
+    private float timeSinceLastAttack = float.MaxValue;
+
     //가상메서드로 제작-Player Controller에서 overrides
     protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         animationHandler = GetComponent<AnimationHandler>();
         statHandler = GetComponent<StatHandler>();
+
+        if (WeaponPrefab != null)
+            weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
+        else
+            weaponHandler = GetComponentInChildren<WeaponHandler>();
     }
 
     protected virtual void Start()
@@ -45,6 +59,7 @@ public class BaseController : MonoBehaviour
     {
         HandleAction();
         Rotate(lookDirection);
+        HandleAttackDelay();
     }
 
     protected virtual void FixedUpdate()
@@ -92,6 +107,8 @@ public class BaseController : MonoBehaviour
         {
             weaponPivot.rotation = Quaternion.Euler(0, 0, rotZ);
         }
+
+        weaponHandler?.Rotate(isLeft);
     }
 
     public void ApplyKnockback(Transform other, float power, float duration)
@@ -100,5 +117,27 @@ public class BaseController : MonoBehaviour
         //상대방을 밀어냄
         //벡터 빼기. normalized = 벡터의 크기를 1로 만들어줌(즉, 필요한건 방향 뿐)
         knockback = -(other.position - transform.position).normalized * power;
+    }
+
+    private void HandleAttackDelay()
+    {
+        if(weaponHandler == null) return;
+
+        if (timeSinceLastAttack <= weaponHandler.Delay)
+        {
+            timeSinceLastAttack += Time.deltaTime;
+        }
+
+        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+        {
+            timeSinceLastAttack = 0;
+            Attack();
+        }
+
+    }
+    protected virtual void Attack()
+    {
+        if (lookDirection != Vector2.zero)
+            weaponHandler?.Attack();
     }
 }
