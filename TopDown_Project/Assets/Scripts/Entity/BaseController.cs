@@ -6,6 +6,8 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     protected Rigidbody2D rigid;
+    protected AnimationHandler animationHandler;
+    protected StatHandler statHandler;
 
     //SerializeField = 직렬화, 즉: 개체의 상태를 나중에 저장, 전송, 재구성할 수 있는 방식으로 변환
     //private에 사용하는 것으로 유니티의 인스펙터 창에 노출
@@ -30,6 +32,8 @@ public class BaseController : MonoBehaviour
     protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animationHandler = GetComponent<AnimationHandler>();
+        statHandler = GetComponent<StatHandler>();
     }
 
     protected virtual void Start()
@@ -59,8 +63,8 @@ public class BaseController : MonoBehaviour
 
     private void Movment(Vector2 direction)
     {
-        //이동 속도
-        direction = direction * 5;
+        //이동 속도 방향*스탯속도
+        direction = direction * statHandler.Speed;
         //넉백 중에는 이동속도가 감소당하고, 넉백 방향으로 이동함
         if (knockbackDuration > 0.0f)
         {
@@ -70,6 +74,7 @@ public class BaseController : MonoBehaviour
 
         //rigid, 실제 객체에 넉백 방향 적용
         rigid.velocity = direction;
+        animationHandler.Move(direction);
     }
 
     private void Rotate(Vector2 direction)
@@ -93,6 +98,7 @@ public class BaseController : MonoBehaviour
     {
         knockbackDuration = duration;
         //상대방을 밀어냄
+        //벡터 빼기. normalized = 벡터의 크기를 1로 만들어줌(즉, 필요한건 방향 뿐)
         knockback = -(other.position - transform.position).normalized * power;
     }
 }
