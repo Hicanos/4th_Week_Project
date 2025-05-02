@@ -6,7 +6,7 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     protected Rigidbody2D rigid;
-
+    protected AnimationHandler animationHandler;
     //SerializeField = 직렬화, 즉: 개체의 상태를 나중에 저장, 전송, 재구성할 수 있는 방식으로 변환
     //private에 사용하는 것으로 유니티의 인스펙터 창에 노출
     [SerializeField] private SpriteRenderer characterRenderer; //스프라이트 좌우반전 준비
@@ -30,6 +30,7 @@ public class BaseController : MonoBehaviour
     protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animationHandler = GetComponent<AnimationHandler>();
     }
 
     protected virtual void Start()
@@ -70,6 +71,7 @@ public class BaseController : MonoBehaviour
 
         //rigid, 실제 객체에 넉백 방향 적용
         rigid.velocity = direction;
+        animationHandler.Move(direction);
     }
 
     private void Rotate(Vector2 direction)
@@ -93,6 +95,7 @@ public class BaseController : MonoBehaviour
     {
         knockbackDuration = duration;
         //상대방을 밀어냄
+        //벡터 빼기. normalized = 벡터의 크기를 1로 만들어줌(즉, 필요한건 방향 뿐)
         knockback = -(other.position - transform.position).normalized * power;
     }
 }
