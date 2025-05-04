@@ -40,7 +40,7 @@ public class OrderLayer : MonoBehaviour
 
             if (playerRenderer != null)
             {
-                playerRenderer.sortingOrder = 100; // 기본값으로 복원
+                playerRenderer.sortingOrder = 200; // 기본값으로 복원
                 isHiding = false;
             }
         }
