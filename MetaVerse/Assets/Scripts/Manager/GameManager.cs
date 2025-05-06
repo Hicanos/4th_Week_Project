@@ -21,16 +21,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject playerPrefab;
 
-
-    //미니게임 관련 설정
-    [HideInInspector] // 게임 데이터로 관리될 미니게임 최고 점수
-    public int highScore = 0;
-
-    // 현재 플레이 중인 미니게임 점수 (임시 저장)
-    [HideInInspector]
-    public int currentMiniGameScore = 0;
-
-
     private void Awake()
     {
         if(Instance == null)

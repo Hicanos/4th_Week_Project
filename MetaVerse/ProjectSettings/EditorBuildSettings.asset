@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StoreScene.unity
     guid: 8e42ec7777718ae4d8874d3d41799117
+  - enabled: 1
+    path: Assets/Scenes/PlaneGame.unity
+    guid: 2b63604dd5c800a4b8d4d12b64f7a91b
   m_configObjects: {}
