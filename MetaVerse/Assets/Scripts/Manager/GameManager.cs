@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); //파괴 금지 처리
-
+                                    
             //씬을 로드할때마다 OnSceneLoaded 호출
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -40,45 +41,64 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
-        // 오브젝트가 파괴되면 이벤트 등록 해제 (중요!)
+        // 오브젝트가 파괴되면 이벤트 등록 해제
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     // 씬이 로드될 때마다 호출되는 메서드
+    // 해당 씬에 캐릭트 프리펩을 생성해야함.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"[GameManager] 씬 로드 완료: {scene.name}");
 
-        //로드된 씬이 메인 씬이고, 아직 플레이어가 생성되지 않았다면 플레이어를 생성
-        if (scene.name == "MainScene")
+        //현재 씬에 플레이어가 있는지 확인 (DontDestroyOnLoad로 넘어온 플레이어 포함)
+        PlayerInteraction existingPlayer = FindObjectOfType<PlayerInteraction>();
+
+        if (scene.name == "StartScene") return; //씬 이름이 StartScene이면 생성금지
+
+        //존재 플레이어==null이고 프리펩은 존재한다면 >생성
+        if (existingPlayer == null && playerPrefab != null)
         {
-            //현재 씬에 플레이어가 있는지 확인 (DontDestroyOnLoad로 넘어온 플레이어 포함)
-            PlayerInteraction existingPlayer = FindObjectOfType<PlayerInteraction>();
+            Debug.Log("[GameManager] 씬 진입. 플레이어 생성 시작.");
 
-            //존재 플레이어==null이고 프리펩은 존재한다면 >생성
-            if (existingPlayer == null && playerPrefab != null)
+            // GameManager의 playerPrefab을 사용하여 플레이어 인스턴스 생성
+            GameObject playerGO = Instantiate(playerPrefab);
+
+            // 생성된 플레이어 오브젝트의 위치를 초기 스폰 위치로 설정
+            // 스폰지점 ID를 가지고 와서 넘김
+
+            // 생성된 플레이어에 캐릭터 이름 설정
+            SetNameOnPlayer(playerGO, characterName);
+
+            //메인카메라 태그로 찾기
+            GameObject mainCameraGO = GameObject.FindGameObjectWithTag("MainCamera");
+
+            if (mainCameraGO != null)
             {
-                Debug.Log("[GameManager] 메인 씬 진입. 플레이어 생성 시작.");
-
-                // GameManager의 playerPrefab을 사용하여 플레이어 인스턴스 생성
-                GameObject playerGO = Instantiate(playerPrefab);
-
-                // 생성된 플레이어 오브젝트의 위치를 초기 스폰 위치로 설정
-                // 스폰지점 ID를 가지고 와서 넘김
-
-                // 생성된 플레이어에 캐릭터 이름 설정
-                SetNameOnPlayer(playerGO, characterName);
-
+                FollowCamera followCameraScript = mainCameraGO.GetComponent<FollowCamera>();
+                if (followCameraScript != null)
+                {
+                    // 찾은 FollowCamera 스크립트의 SetTarget 메서드를 호출하여 생성된 플레이어의 Transform 할당
+                    followCameraScript.SetTarget(playerGO.transform);
+                    Debug.Log("[GameManager] 생성된 플레이어 오브젝트를 FollowCamera의 타겟으로 설정했습니다.");
+                }
+                else
+                {
+                    Debug.LogWarning("[GameManager] 메인 카메라 오브젝트에 FollowCamera 스크립트가 붙어있지 않습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[GameManager] 'MainCamera' 태그를 가진 카메라 오브젝트를 씬에서 찾을 수 없습니다.");
 
             }
-            else if (existingPlayer != null)
-            {
-                Debug.Log("[GameManager] 메인 씬 진입. 플레이어 오브젝트가 이미 존재합니다.");
-                // 정상적인 플레이라면 존재할 수 없음.
-                // 만약을 위해서(...) 설정
-                SetNameOnPlayer(existingPlayer.gameObject, characterName);
-            }
-
+        }
+        else if (existingPlayer != null)
+        {
+            Debug.Log("[GameManager] 씬 진입. 플레이어 오브젝트가 이미 존재합니다.");
+            // 정상적인 플레이라면 존재할 수 없음.
+            // 만약을 위해서(...) 설정
+            SetNameOnPlayer(existingPlayer.gameObject, characterName);
         }
 
     }
@@ -93,7 +113,7 @@ public class GameManager : MonoBehaviour
     private void SetNameOnPlayer(GameObject playerObject, string name)
     {
 
-        Transform nameTextTransform = playerObject.transform.Find("NameCanvas/PlayerName"); // TODO: 실제 경로 확인
+        Transform nameTextTransform = playerObject.transform.Find("NameCanvas/PlayerName");
         TMPro.TMP_Text nameText = null;
 
         //입력창에 입력하면.
