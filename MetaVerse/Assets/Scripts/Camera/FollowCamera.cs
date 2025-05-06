@@ -25,6 +25,10 @@ public class FollowCamera : MonoBehaviour
             pos.x = target.position.x + offsetX;
             pos.y = target.position.y + offsetY;
 
+            //가장 맵이 넓은 메인화면 내의 최대치 설정
+            pos.x= Mathf.Clamp(pos.x, -2, 15);
+            pos.y = Mathf.Clamp(pos.y, -10, 5);
+
             //그러니 변조 후 다시 넣는 작업도 필요
             transform.position = pos;
         }            
