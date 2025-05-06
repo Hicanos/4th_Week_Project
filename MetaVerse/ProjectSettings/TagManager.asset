@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Interact
+  - Potal
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Potal
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
@@ -41,4 +42,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Potal
+    uniqueID: 50259645
     locked: 0

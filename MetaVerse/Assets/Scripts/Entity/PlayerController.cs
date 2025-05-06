@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : BaseController
 {
     private Camera camera;
+    private bool IsLeft;
+
+
+    //카메라: 4f~8f까지 줌인- 줌아웃. 그 이상은 clamp.  
+    //Math.Lerp로 부드럽게.  
+
     protected override void Start()
     {
         base.Start();
@@ -17,17 +24,17 @@ public class PlayerController : BaseController
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizontal, vertical).normalized;
 
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
-        lookDirection = (worldPos - (Vector2)transform.position);
+        //만약 왼쪽을 보고 있다면, 플립.  
 
-        if (lookDirection.magnitude < .9f)
+        if (movementDirection.x < 0)
         {
-            lookDirection = Vector2.zero;
+            IsLeft = true;
+            characterRenderer.flipX = true; // Use the correct property name  
         }
-        else
+        else if (movementDirection.x > 0)
         {
-            lookDirection = lookDirection.normalized;
+            IsLeft = false;
+            characterRenderer.flipX = false; // Reset flipX when moving right  
         }
     }
 }
