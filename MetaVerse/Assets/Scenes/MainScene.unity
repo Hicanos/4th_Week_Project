@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf4d80164a89bc458fe150be31193f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: MainScene
+  targetSceneName: PlaneScene
   targetSpawnPointID: 
   thisPointID: PlaneGame
 --- !u!61 &269547407
@@ -631,7 +631,7 @@ Transform:
   m_GameObject: {fileID: 269547405}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.009500066, w: 0.9999549}
-  m_LocalPosition: {x: 13.5, y: -0.88, z: 0.0033861236}
+  m_LocalPosition: {x: -0.38, y: -8.65, z: 0.0033861236}
   m_LocalScale: {x: 2, y: 2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15616,6 +15616,8 @@ MonoBehaviour:
   previousSceneName: 
   characterName: Player
   playerPrefab: {fileID: 0}
+  highScore: 0
+  currentMiniGameScore: 0
 --- !u!4 &1345779950
 Transform:
   m_ObjectHideFlags: 0

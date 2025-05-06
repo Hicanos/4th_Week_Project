@@ -40,4 +40,9 @@ public class MiniGameManager : MonoBehaviour
         currentScore += score;
         uiManager.UpdateScore(currentScore);
     }
+
+    public void SelectPlane()
+    {
+
+    }
 }

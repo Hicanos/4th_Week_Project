@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI restartText;
+    public TextMeshProUGUI backMainText;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +15,8 @@ public class UIManager : MonoBehaviour
             Debug.LogError("restart text is null");
         if (scoreText == null)
             Debug.LogError("score text is null");
+        if (backMainText == null)
+            Debug.LogError("backMain text is null");
 
         restartText.gameObject.SetActive(false);
     }
