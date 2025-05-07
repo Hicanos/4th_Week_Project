@@ -62,12 +62,12 @@ public class PlayerInteraction : MonoBehaviour
         // F 키를 눌렀는지 확인
         if (currentInteractableObj != null && Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log($"[상호작용 핸들러] F 키 입력 감지! 상호작용 대상: {currentInteractableObj.name}");            
-
+            
             // 상호작용 대상 오브젝트에 어떤 컴포넌트(Potal, DoorInteract 등)가 붙어있는지 확인
 
             Potal potalComponent = currentInteractableObj.GetComponent<Potal>();
             DoorInteract doorInteractComponent = currentInteractableObj.GetComponent<DoorInteract>();
+            NPCInteraction npcInteraction = currentInteractableObj.GetComponent<NPCInteraction>();
 
             // 어떤 종류의 상호작용 오브젝트인지 확인하고 해당 로직을 실행
             if (potalComponent != null)
@@ -84,6 +84,13 @@ public class PlayerInteraction : MonoBehaviour
                 // DoorInteract 스크립트의 상호작용 메서드를 호출
                 // 문 열림 애니메이션, 충돌체 변경 등은 DoorInteract 스크립트 자체에서 처리
                 doorInteractComponent.Interact();
+            }
+            else if (npcInteraction != null)
+            {
+                //NPC와 상호작용하는 NPCInteract 컴포넌트
+                //상호작용 메서드 호출
+
+
             }
             else
             {
