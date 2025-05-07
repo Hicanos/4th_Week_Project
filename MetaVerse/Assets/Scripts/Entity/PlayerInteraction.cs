@@ -14,9 +14,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         // 씬이 로드될 때 GameManager에 저장된 스폰 지점 정보 확인
         if (GameManager.Instance != null && !string.IsNullOrEmpty(GameManager.Instance.nextSpawnPointID))
-        {
-            Debug.Log($"GameManager에 저장된 스폰 지점 ID 발견: {GameManager.Instance.nextSpawnPointID}");
-
+        {            
             // 저장된 ID와 일치하는 Potal을 씬에서 찾기
             Potal[] spawnPoints = FindObjectsOfType<Potal>();
             Potal targetSpawnPoint = null;

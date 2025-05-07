@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlanePlayer : MonoBehaviour
 {
+    private Animator characterAnimator;
     Animator animator;
     Rigidbody2D rigbody;
 
@@ -21,11 +22,9 @@ public class PlanePlayer : MonoBehaviour
 
     void Start()
     {
-        miniGameManager = MiniGameManager.Instance;
-        animator = transform.GetComponentInChildren<Animator>();
+        miniGameManager = MiniGameManager.Instance;        
         rigbody = transform.GetComponent<Rigidbody2D>();
 
-        if (animator == null) Debug.LogError("Not Founded Animator");
         if (rigbody == null) Debug.LogError("Not Founded Animator");
     }
 
@@ -95,5 +94,26 @@ public class PlanePlayer : MonoBehaviour
 
         animator.SetInteger("IsDie", 1);
         miniGameManager.GameOver();
+    }
+
+    public void SetCharacterAnimator(Animator animator)
+    {
+        characterAnimator = animator;
+        if (characterAnimator == null) Debug.LogWarning("[PlanePlayer] 캐릭터 애니메이터가 null로 설정되었습니다.");
+        else Debug.Log("[PlanePlayer] 캐릭터 애니메이터 설정 완료.");
+    }
+
+    public void SetPlaneAnimationType(int type)
+    {
+        Debug.Log($"[PlanePlayer] 비행기 애니메이션 타입 설정: {type}");
+        // 애니메이터의 파라미터를 설정하여 애니메이션 변경
+        if (characterAnimator != null)
+        {
+            characterAnimator.SetInteger("PlaneType", type);
+        }
+        else
+        {
+            Debug.LogWarning("[PlanePlayer] 캐릭터 애니메이터가 없습니다.");
+        }
     }
 }

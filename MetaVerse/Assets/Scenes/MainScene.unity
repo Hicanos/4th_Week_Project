@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf4d80164a89bc458fe150be31193f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: PlaneScene
+  targetSceneName: PlaneGame
   targetSpawnPointID: 
   thisPointID: PlaneGame
 --- !u!61 &269547407
@@ -15615,9 +15615,8 @@ MonoBehaviour:
   nextSpawnPointID: 
   previousSceneName: 
   characterName: Player
-  playerPrefab: {fileID: 0}
-  highScore: 0
-  currentMiniGameScore: 0
+  playerPrefab: {fileID: 2503213831281637551, guid: b75999b08cfb9fa43b9caf91721c051b, type: 3}
+  characterVisualPrefab: {fileID: 5604006131434359270, guid: 7007d1f63a68bf34a84d23f791a1b4ca, type: 3}
 --- !u!4 &1345779950
 Transform:
   m_ObjectHideFlags: 0
