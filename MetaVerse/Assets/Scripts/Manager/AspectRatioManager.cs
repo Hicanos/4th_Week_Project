@@ -7,13 +7,7 @@ public class AspectRatioManager : MonoBehaviour
 {
     public float targetAspect = 16f / 9f; // 기본 목표 비율 (16:9)
 
-    private void Awake()
-    {
-        if (SceneManager.GetActiveScene().name == "StackScene")
-        {
-            GetComponent<AspectRatioManager>().SetTargetAspectRatio(9f / 16f);
-        }
-    }
+
 
     void Update()
     {

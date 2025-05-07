@@ -67,6 +67,7 @@ public class PlayerInteraction : MonoBehaviour
 
             Potal potalComponent = currentInteractableObj.GetComponent<Potal>();
             DoorInteract doorInteractComponent = currentInteractableObj.GetComponent<DoorInteract>();
+            NPCInteraction npcInteraction = currentInteractableObj.GetComponent<NPCInteraction>();
 
             // 어떤 종류의 상호작용 오브젝트인지 확인하고 해당 로직을 실행
             if (potalComponent != null)
@@ -83,6 +84,13 @@ public class PlayerInteraction : MonoBehaviour
                 // DoorInteract 스크립트의 상호작용 메서드를 호출
                 // 문 열림 애니메이션, 충돌체 변경 등은 DoorInteract 스크립트 자체에서 처리
                 doorInteractComponent.Interact();
+            }
+            else if (npcInteraction != null)
+            {
+                //NPC와 상호작용하는 NPCInteract 컴포넌트
+                //상호작용 메서드 호출
+
+
             }
             else
             {
