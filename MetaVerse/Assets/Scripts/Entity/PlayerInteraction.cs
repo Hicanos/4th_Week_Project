@@ -62,8 +62,7 @@ public class PlayerInteraction : MonoBehaviour
         // F 키를 눌렀는지 확인
         if (currentInteractableObj != null && Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log($"[상호작용 핸들러] F 키 입력 감지! 상호작용 대상: {currentInteractableObj.name}");            
-
+            
             // 상호작용 대상 오브젝트에 어떤 컴포넌트(Potal, DoorInteract 등)가 붙어있는지 확인
 
             Potal potalComponent = currentInteractableObj.GetComponent<Potal>();
