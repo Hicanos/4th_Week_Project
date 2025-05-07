@@ -164,7 +164,7 @@ MonoBehaviour:
   m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -5041794830008889434, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &26559189
@@ -2199,7 +2199,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 645190953}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1146330823}
+        m_TargetAssemblyTypeName: MiniGameManager, Assembly-CSharp
+        m_MethodName: SelectPlane
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &645190953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3587,6 +3599,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1146330822}
+  - component: {fileID: 1146330823}
   m_Layer: 0
   m_Name: MiniGameManager
   m_TagString: Untagged
@@ -3609,6 +3622,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1146330823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146330821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b8ab81180abef45af55ce967a5c12a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ridingObject: {fileID: 528420481}
+  characterMountPoint: {fileID: 528420484}
 --- !u!1 &1151739398
 GameObject:
   m_ObjectHideFlags: 0
@@ -4172,7 +4199,7 @@ MonoBehaviour:
   m_text: Click To Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -5041794830008889434, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4235,7 +4262,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1592591030
@@ -4325,7 +4352,7 @@ MonoBehaviour:
   m_text: Press 'B' to Main
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -5041794830008889434, guid: c3bef544faf36db418fba393af4fd2e8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4388,7 +4415,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1702658969
@@ -4541,6 +4568,11 @@ MonoBehaviour:
   scoreText: {fileID: 26559188}
   restartText: {fileID: 1592591029}
   backMainText: {fileID: 1702658968}
+  planeSelectionPanel: {fileID: 872487386}
+  selectPlaneButtons:
+  - {fileID: 645190952}
+  - {fileID: 2084932538}
+  - {fileID: 1817857449}
 --- !u!114 &1759750425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5397,7 +5429,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1817857450}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1146330823}
+        m_TargetAssemblyTypeName: MiniGameManager, Assembly-CSharp
+        m_MethodName: SelectPlane
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1817857450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5480,53 +5524,6 @@ Transform:
   - {fileID: 367701814}
   - {fileID: 773326720}
   - {fileID: 2046642781}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1931764047
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1931764049}
-  - component: {fileID: 1931764048}
-  m_Layer: 0
-  m_Name: Spawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1931764048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931764047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf4d80164a89bc458fe150be31193f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: 
-  targetSpawnPointID: 
-  thisPointID: PlaneSpawn
---- !u!4 &1931764049
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931764047}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046642780
@@ -5820,7 +5817,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2084932539}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1146330823}
+        m_TargetAssemblyTypeName: MiniGameManager, Assembly-CSharp
+        m_MethodName: SelectPlane
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2084932539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5865,7 +5874,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1744021787}
   - {fileID: 528420484}
-  - {fileID: 1931764049}
   - {fileID: 1903035363}
   - {fileID: 99407161}
   - {fileID: 1146330822}

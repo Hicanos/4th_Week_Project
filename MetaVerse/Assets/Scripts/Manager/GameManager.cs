@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public string characterName = "Player"; // ±âº»°ª
 
     public GameObject playerPrefab;
+    public GameObject characterVisualPrefab;
 
     private void Awake()
     {

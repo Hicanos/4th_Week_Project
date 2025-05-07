@@ -660,6 +660,7 @@ MonoBehaviour:
   previousSceneName: 
   characterName: Player
   playerPrefab: {fileID: 2503213831281637551, guid: b75999b08cfb9fa43b9caf91721c051b, type: 3}
+  characterVisualPrefab: {fileID: 5604006131434359270, guid: 7007d1f63a68bf34a84d23f791a1b4ca, type: 3}
 --- !u!4 &963533911
 Transform:
   m_ObjectHideFlags: 0
